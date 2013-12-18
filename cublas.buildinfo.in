@@ -1,0 +1,5 @@
+ghc-options: -optc@cuda_cppflags@
+cc-options: @cuda_cppflags@
+ld-options: @cuda_ldflags@ -lcublas
+x-extra-c2hs-options: @cuda_c2hsflags@
+extra-lib-dirs: @cuda_lib_path@
