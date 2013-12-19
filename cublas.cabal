@@ -13,14 +13,18 @@ build-type:          Configure
 extra-source-files:  cublas_wrap.h
 cabal-version:       >=1.10
 
+Flag btest
+    Description:     Build the test program
+    Default:         False
+
 library
   exposed-modules:     Foreign.CUDA.BLAS,
-                       Foreign.CUDA.BLAS.Internal,
-                       Foreign.CUDA.BLAS.Internal.Error
-                       Foreign.CUDA.BLAS.Internal.Helper
-                       Foreign.CUDA.BLAS.Internal.Level1
+                       Foreign.CUDA.BLAS.Error
+                       Foreign.CUDA.BLAS.Helper
+                       Foreign.CUDA.BLAS.Level1
   other-modules:       Foreign.CUDA.BLAS.Internal.C2HS
-  build-depends:       base >=4 && <5, cuda
+  build-depends:       base >=4 && <5, 
+                       cuda == 0.5.*
   build-tools:         c2hs >= 0.16
   ghc-options:         -Wall -O2 -funbox-strict-fields -fwarn-tabs
   -- hs-source-dirs:      src/
@@ -30,8 +34,11 @@ library
 
 executable cublas-test
   main-is:             cublas-test.hs
-  ghc-options:         -Wall -O2 -funbox-strict-fields -fwarn-tabs
+  ghc-options:         -Wall -O2 -rtsopts -threaded -funbox-strict-fields -fwarn-tabs
   build-depends:       base >= 4 && < 5, cublas
+
+  if flag(btest)
+      buildable:       True
 
 Source-repository head
   Type:                 git

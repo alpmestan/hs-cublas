@@ -2,7 +2,7 @@
 {-# LANGUAGE DeriveDataTypeable #-}
 {-# LANGUAGE ForeignFunctionInterface #-}
 
-module Foreign.CUDA.BLAS.Internal.Error 
+module Foreign.CUDA.BLAS.Error 
   ( Status (..)
   , describe
   , CUBLASException (..)

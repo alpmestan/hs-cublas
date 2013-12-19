@@ -1,15 +1,15 @@
 {-# LANGUAGE CPP #-}
 {-# LANGUAGE ForeignFunctionInterface #-}
 
-module Foreign.CUDA.BLAS.Internal.Helper
+module Foreign.CUDA.BLAS.Helper
   ( Handle (..)
-  , cublasCreate
-  , cublasDestroy
-  , cublasVersion
+  , create
+  , destroy
+  , version
   ) where
 
 import Foreign.CUDA.BLAS.Internal.C2HS
-import Foreign.CUDA.BLAS.Internal.Error
+import Foreign.CUDA.BLAS.Error
 
 import Control.Monad (liftM)
 import Foreign
@@ -24,25 +24,25 @@ newtype Handle = Handle { useHandle :: {# type cublasHandle_t #}}
 
 -- | Create a CUBLAS context. 
 --   Must be called before calling any other CUBLAS function
-cublasCreate :: IO Handle
-cublasCreate = statusIfOk =<< cublasCreate_v2
+create :: IO Handle
+create = statusIfOk =<< cublasCreate
 
-{# fun unsafe cublasCreate_v2 
+{# fun unsafe cublasCreate_v2 as cublasCreate
   { alloca- `Handle' peekHdl* } -> `Status' cToEnum #}
   where 
   	peekHdl = liftM Handle . peek
 
 -- | Destroy a CUBLAS context created with 'cublasCreate'
-cublasDestroy :: Handle -> IO ()
-cublasDestroy h = nothingIfOk =<< cublasDestroy_v2 h
+destroy :: Handle -> IO ()
+destroy h = nothingIfOk =<< cublasDestroy h
 
-{# fun unsafe cublasDestroy_v2
+{# fun unsafe cublasDestroy_v2 as cublasDestroy
   { useHandle `Handle' } -> `Status' cToEnum #}
 
 -- | Get the version of CUBLAS
-cublasVersion :: Handle -> IO CInt
-cublasVersion h = statusIfOk =<< cublasGetVersion_v2 h
+version :: Handle -> IO CInt
+version h = statusIfOk =<< cublasGetVersion h
 
-{# fun unsafe cublasGetVersion_v2 
+{# fun unsafe cublasGetVersion_v2 as cublasGetVersion 
   { useHandle `Handle' 
   , alloca- `CInt' peek* } -> `Status' cToEnum #}
