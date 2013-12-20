@@ -1,13 +1,10 @@
 module Foreign.CUDA.BLAS
   ( -- * Level 1 functions
-    sdot
-  , ddot
-  , cublasSdot
-  , cublasDdot
-  , -- * Helper functions
-    create
-  , destroy
-  , version
+    module Foreign.CUDA.BLAS.Level1
+    -- * Helper functions
+  , module Foreign.CUDA.BLAS.Helper
+    -- * Status and mics
+  , module Foreign.CUDA.BLAS.Error
   ) where
 
 import Foreign.CUDA.BLAS.Helper
