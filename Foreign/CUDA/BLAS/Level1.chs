@@ -2,8 +2,12 @@
 {-# LANGUAGE ForeignFunctionInterface #-}
 
 module Foreign.CUDA.BLAS.Level1 
- ( sdot
+ ( 
+ -- * Wrappers (preferred)
+   sdot
  , ddot
+
+ -- * Raw bindings
  , cublasSdot
  , cublasDdot
  ) where

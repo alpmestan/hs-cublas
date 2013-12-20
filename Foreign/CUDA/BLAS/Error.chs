@@ -17,6 +17,9 @@ import Data.Typeable
 #include <cublas_wrap.h>
 {# context lib="cublas" #}
 
+-- | Type describing how a CUBLAS call responded (success or various kind of failures)
+--
+--   See <http://docs.nvidia.com/cuda/cublas/#cublasstatus_t>
 {# enum cublasStatus_t as Status
   { underscoreToCase }
   with prefix="CUBLAS" deriving (Eq, Show) #}
