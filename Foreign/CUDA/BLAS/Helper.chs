@@ -2,9 +2,15 @@
 {-# LANGUAGE ForeignFunctionInterface #-}
 
 module Foreign.CUDA.BLAS.Helper
-  ( Handle (..)
+  ( -- * CUBLAS context
+    Handle (..)
   , create
   , destroy
+    -- * Pointer mode
+  , PointerMode(..)  
+  , getPointerMode
+  , setPointerMode
+    -- * Misc
   , version
   ) where
 
@@ -46,3 +52,28 @@ version h = statusIfOk =<< cublasGetVersion h
 {# fun unsafe cublasGetVersion_v2 as cublasGetVersion 
   { useHandle `Handle' 
   , alloca- `CInt' peek* } -> `Status' cToEnum #}
+
+-- | Pointer mode type.
+--   'PointerModeHost' to require the scalars to be passed /by reference on the host/
+--   'PointerModeDevice' to require the scalars to be passed /by reference on the device/
+{# enum cublasPointerMode_t as PointerMode
+  { underscoreToCase }
+  with prefix="CUBLAS" deriving (Eq, Show) #}
+
+
+-- | Set the pointer mode
+setPointerMode :: Handle -> PointerMode -> IO ()
+setPointerMode h p = nothingIfOk =<< cublasSetPointerMode h p
+
+-- | Get the pointer mode
+getPointerMode :: Handle -> IO PointerMode
+getPointerMode h = statusIfOk =<< cublasGetPointerMode h
+
+{# fun unsafe cublasSetPointerMode_v2 as cublasSetPointerMode 
+  { useHandle `Handle'
+  , cFromEnum `PointerMode' } -> `Status' cToEnum #}
+
+{# fun unsafe cublasGetPointerMode_v2 as cublasGetPointerMode 
+  { useHandle `Handle'
+  , alloca-   `PointerMode' peekPM* } -> `Status' cToEnum #}
+  where peekPM = liftM cToEnum . peek
