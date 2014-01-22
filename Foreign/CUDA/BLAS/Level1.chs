@@ -105,7 +105,7 @@ ddot h n v1 stride1 v2 stride2 oPtr =
   ,           `Int'
   , useDev    `DevicePtr Double' } -> `Status' cToEnum #}
 
--- | Absolute sum of vector element for 'Float's
+-- | Absolute sum of vector elements for 'Float's
 sasum :: Handle -- ^ CUBLAS context
       -> Int    -- ^ Number of elements in the input vector
       -> DevicePtr Float -> Int -- ^ first input vector and its stride
@@ -113,10 +113,10 @@ sasum :: Handle -- ^ CUBLAS context
       -> IO ()
 sasum h n v stride outPtr = nothingIfOk =<< cublasSasum h n v stride outPtr
 
--- | Absolute sum of vector element for 'Double's
+-- | Absolute sum of vector elements for 'Double's
 dasum :: Handle -- ^ CUBLAS context
       -> Int    -- ^ Number of elements in the input vector
-      -> DevicePtr Double -> Int -- ^ first input vector and its stride
+      -> DevicePtr Double -> Int -- ^ input vector and its stride
       -> DevicePtr Double        -- ^ 0-dim output vector
       -> IO ()
 dasum h n v stride outPtr = nothingIfOk =<< cublasDasum h n v stride outPtr
