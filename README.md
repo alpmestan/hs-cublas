@@ -1,3 +1,5 @@
+**This package isn't being worked on anymore. Someone has put up a complete FFI binding to CUBLAS on hackage: [here](http://hackage.haskell.org/package/cublas).**
+
 This is an ongoing work on a binding to the CUBLAS library. This will eventually be used in my upcoming `accelerate-cublas` library that will expose CUBLAS's features through operations on `Accelerate` arrays.
 
 Installation
